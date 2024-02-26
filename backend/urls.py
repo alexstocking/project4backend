@@ -17,13 +17,28 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework_simplejwt import views as jwt_views
 from main_app import views
+
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'products', views.ProductViewSet)
+router.register(r'carts', views.CartViewSet)
+router.register(r'cartproducts', views.CartProductViewSet)
+router.register(r'lists', views.ListViewSet)
+router.register(r'listproducts', views.ListProductViewSet)
+router.register(r'tags', views.TagViewSet)
+router.register(r'requests', views.RequestViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('token/', jwt_views.TokenObtainPairView.as_view(), name ='token_obtain_pair'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
+    path('logout/', views.LogoutView.as_view(), name ='logout'),
+    path('signup/', views.SignUpView.as_view(), name ='auth_register'),
+    path('users/me/', views.current_user, name='current_user'),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
