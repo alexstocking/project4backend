@@ -19,6 +19,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 from main_app import views
+from main_app.views import current_user, CartProductCreateAPIView, CartProductRemoveAPIView, ListProductCreateAPIView, ListProductRemoveAPIView
 
 
 router = routers.DefaultRouter()
@@ -36,9 +37,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('token/', jwt_views.TokenObtainPairView.as_view(), name ='token_obtain_pair'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
-    path('logout/', views.LogoutView.as_view(), name ='logout'),
+    path('logout/', views.LogoutView.as_view(), name ='auth_logout'),
     path('signup/', views.SignUpView.as_view(), name ='auth_register'),
-    path('users/me/', views.current_user, name='current_user'),
+    path('account/edit/', views.EditAccountView.as_view(), name ='account_edit'),
+    path('newrequest/', views.NewRequest.as_view(), name ='new_request'),
+    path('request/edit/<int:pk>/', views.EditRequest.as_view(), name ='edit_request'),
+    path('api/current_user/', current_user, name='current_user'),
+    path('cart/add/', CartProductCreateAPIView.as_view(), name='cart-add'),
+    path('cart/remove/<int:pk>/', CartProductRemoveAPIView.as_view(), name='cart-remove'),
+    path('list/add/', ListProductCreateAPIView.as_view(), name='list-add'),
+    path('list/remove/<int:pk>/', ListProductRemoveAPIView.as_view(), name='list-remove'),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
