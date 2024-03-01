@@ -38,7 +38,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
     'project4backend-production-fd83.up.railway.app',
     'project4backend.railway.internal'
 ]
@@ -78,7 +78,9 @@ ROOT_URLCONF = 'backend.urls'
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost/',
-    'http://127.0.0.1/'
+    'http://127.0.0.1/',
+    'project4backend-production-fd83.up.railway.app',
+    'project4backend.railway.internal'
 ]
 
 TEMPLATES = [
