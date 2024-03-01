@@ -19,7 +19,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 from main_app import views
-from main_app.views import current_user, CartProductCreateAPIView, CartProductRemoveAPIView, ListProductCreateAPIView, ListProductRemoveAPIView
+from main_app.views import current_user, CartProductCreateAPIView, CartProductRemoveAPIView, ListProductCreateAPIView, ListProductRemoveAPIView, NewCartRequest
 
 
 router = routers.DefaultRouter()
@@ -47,6 +47,7 @@ urlpatterns = [
     path('cart/remove/<int:pk>/', CartProductRemoveAPIView.as_view(), name='cart-remove'),
     path('list/add/', ListProductCreateAPIView.as_view(), name='list-add'),
     path('list/remove/<int:pk>/', ListProductRemoveAPIView.as_view(), name='list-remove'),
+    path('newcartrequest/', NewCartRequest.as_view(), name='new_cart_request'),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

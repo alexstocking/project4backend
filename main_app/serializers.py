@@ -50,7 +50,7 @@ class CartSerializer(serializers.ModelSerializer):
     cart_product = CartProductSerializer(many = True)
     class Meta:
         model = Cart
-        fields = ['id', 'url', 'user', 'cart_product']
+        fields = ['id', 'url', 'user', 'cart_product', 'personalization']
 
 
 class ListProductSerializer(serializers.ModelSerializer):

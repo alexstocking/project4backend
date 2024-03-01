@@ -33,6 +33,7 @@ class Request(models.Model):
 class Cart(models.Model):
     products = models.ManyToManyField(Product, through='CartProduct')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    personalization = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username

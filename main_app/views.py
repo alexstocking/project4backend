@@ -104,6 +104,23 @@ class EditAccountView(APIView):
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
+class NewCartRequest(APIView):
+    def post(self, request):
+        personalization = request.data.get('personalization')
+        cart_id = request.data.get('cart_id')
+
+        try:
+            cart = Cart.objects.get(pk=cart_id)
+        except:
+            return Response({"error": "Cart does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            cart.personalization = personalization
+            cart.save()
+            return Response({"success": "Personalization added to cart"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
 class NewRequest(APIView):
     def post(self, request):
         name = request.data.get('name')
@@ -187,7 +204,7 @@ class CartProductCreateAPIView(generics.CreateAPIView):
         
         # Add the product to the cart
         cart_item = CartProduct.objects.create(cart=cart, product_id=product_id, quantity=quantity)
-        serializer = self.serializer_class(cart_item)
+        serializer = self.serializer_class(cart_item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 class CartProductRemoveAPIView(generics.DestroyAPIView):
@@ -219,7 +236,7 @@ class ListProductCreateAPIView(generics.CreateAPIView):
         quantity = request.data.get('quantity', 1)
         
         list_item = ListProduct.objects.create(list=list, product_id=product_id, quantity=quantity)
-        serializer = self.serializer_class(list_item)
+        serializer = self.serializer_class(list_item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class ListProductRemoveAPIView(generics.DestroyAPIView):
